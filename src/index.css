@@ -146,14 +146,16 @@ h1 {
   color: var(--text-muted);
 }
 
+/* minmax(0, …) hindrer at lang tekst gjør kolonnene bredere enn de skal være */
 .layout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
 }
 
 @media (min-width: 860px) {
   .layout {
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: 360px minmax(0, 1fr);
     align-items: start;
   }
 
@@ -165,6 +167,7 @@ h1 {
 
 .sidebar {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
 }
 
@@ -223,6 +226,7 @@ h1 {
 
 .form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -246,9 +250,20 @@ h1 {
   font-weight: 400;
 }
 
+.field-label-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.counter {
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
 .field-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
 }
 
@@ -257,6 +272,9 @@ input[type='date'],
 input[type='time'],
 select {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  text-overflow: ellipsis;
   min-height: 44px;
   padding: 10px 12px;
   background: var(--surface-2);
@@ -403,6 +421,7 @@ input[aria-invalid='true'] {
   padding: 14px 0 0;
   border-top: 1px solid var(--border);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 4px;
 }
 
@@ -439,9 +458,8 @@ input[aria-invalid='true'] {
 
 .subject-name {
   flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .badge {
@@ -477,6 +495,10 @@ input[aria-invalid='true'] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
+  max-width: 60%;
+  overflow-wrap: anywhere;
+  text-align: left;
   padding: 4px 10px;
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -497,6 +519,7 @@ input[aria-invalid='true'] {
   margin: 0;
   padding: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
 }
 
@@ -600,6 +623,8 @@ input[aria-invalid='true'] {
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-size: 0.8rem;
   color: var(--text-muted);
 }

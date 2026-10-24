@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { todayISO } from '../utils/dates'
 
+const MAX_TITLE_LENGTH = 80
+
 export default function TaskForm({ subjects, onAdd }) {
   const [title, setTitle] = useState('')
   const [subjectId, setSubjectId] = useState('')
@@ -36,7 +38,10 @@ export default function TaskForm({ subjects, onAdd }) {
   return (
     <form className="form" onSubmit={handleSubmit} noValidate>
       <label className="field">
-        <span className="field-label">Oppgave</span>
+        <span className="field-label field-label-row">
+          Oppgave
+          <span className="counter">{title.length}/{MAX_TITLE_LENGTH}</span>
+        </span>
         <input
           type="text"
           value={title}
@@ -45,7 +50,7 @@ export default function TaskForm({ subjects, onAdd }) {
             clearError('title')
           }}
           placeholder="F.eks. Innlevering 3"
-          maxLength={100}
+          maxLength={MAX_TITLE_LENGTH}
           aria-invalid={Boolean(errors.title)}
         />
         {errors.title && <span className="error" role="alert">{errors.title}</span>}

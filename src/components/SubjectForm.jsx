@@ -5,6 +5,8 @@ const PRESET_COLORS = [
   '#ef4444', '#ec4899', '#8b5cf6', '#64748b',
 ]
 
+const MAX_NAME_LENGTH = 40
+
 export default function SubjectForm({ subjects, onAdd }) {
   const [name, setName] = useState('')
   const [color, setColor] = useState(PRESET_COLORS[0])
@@ -32,7 +34,10 @@ export default function SubjectForm({ subjects, onAdd }) {
   return (
     <form className="form" onSubmit={handleSubmit} noValidate>
       <label className="field">
-        <span className="field-label">Navn</span>
+        <span className="field-label field-label-row">
+          Navn
+          <span className="counter">{name.length}/{MAX_NAME_LENGTH}</span>
+        </span>
         <input
           type="text"
           value={name}
@@ -41,7 +46,7 @@ export default function SubjectForm({ subjects, onAdd }) {
             if (error) setError('')
           }}
           placeholder="F.eks. Kunstig intelligens"
-          maxLength={60}
+          maxLength={MAX_NAME_LENGTH}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'subject-error' : undefined}
         />
