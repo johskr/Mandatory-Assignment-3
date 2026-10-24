@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { createId } from './utils/id'
 import { isSoon, isOverdue } from './utils/dates'
+import { createSampleData } from './utils/sampleData'
 import SubjectForm from './components/SubjectForm'
 import SubjectList from './components/SubjectList'
 import TaskForm from './components/TaskForm'
@@ -32,6 +33,18 @@ export default function App() {
       overdue: overdue.length,
     }
   }, [tasks])
+
+  const isEmpty = subjects.length === 0 && tasks.length === 0
+
+  function loadSampleData() {
+    if (!isEmpty && !window.confirm('Eksempeldataene erstatter alle fag og oppgaver du har nå. Vil du fortsette?')) {
+      return
+    }
+    const sample = createSampleData()
+    setSubjects(sample.subjects)
+    setTasks(sample.tasks)
+    setFilter('all')
+  }
 
   function addSubject({ name, color }) {
     setSubjects((prev) => [...prev, { id: createId(), name, color }])
@@ -111,8 +124,17 @@ export default function App() {
           onClearFilter={() => setFilter('all')}
           onToggle={toggleTask}
           onDelete={deleteTask}
+          onLoadSample={isEmpty ? loadSampleData : null}
         />
       </main>
+
+      {!isEmpty && (
+        <footer className="app-footer">
+          <button type="button" className="btn btn-ghost btn-small" onClick={loadSampleData}>
+            Last inn eksempeldata
+          </button>
+        </footer>
+      )}
     </div>
   )
 }

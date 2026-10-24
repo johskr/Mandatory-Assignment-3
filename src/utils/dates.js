@@ -6,10 +6,20 @@ export function parseDate(isoDate) {
   return new Date(y, m - 1, d)
 }
 
-export function todayISO() {
-  const now = new Date()
+function toISO(date) {
   const pad = (n) => String(n).padStart(2, '0')
-  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+export function todayISO() {
+  return toISO(new Date())
+}
+
+// Dato et antall dager fra i dag (negativt tall gir en dato bakover i tid)
+export function offsetISO(days) {
+  const date = new Date()
+  date.setDate(date.getDate() + days)
+  return toISO(date)
 }
 
 export function daysUntil(isoDate) {

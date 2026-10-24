@@ -514,6 +514,23 @@ input[aria-invalid='true'] {
   border-radius: var(--radius-sm);
 }
 
+.empty-action {
+  margin-top: 16px;
+}
+
+.btn-small {
+  min-height: 36px;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
 .task-list {
   list-style: none;
   margin: 0;

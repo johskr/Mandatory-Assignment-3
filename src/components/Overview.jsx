@@ -10,7 +10,15 @@ const byDueDate = (a, b) =>
   timeKey(a).localeCompare(timeKey(b)) ||
   (a.createdAt ?? 0) - (b.createdAt ?? 0)
 
-export default function Overview({ tasks, subjectsById, filter, onClearFilter, onToggle, onDelete }) {
+export default function Overview({
+  tasks,
+  subjectsById,
+  filter,
+  onClearFilter,
+  onToggle,
+  onDelete,
+  onLoadSample,
+}) {
   const [showDone, setShowDone] = useState(false)
 
   const visible = tasks.filter((t) => filter === 'all' || t.subjectId === filter)
@@ -45,7 +53,17 @@ export default function Overview({ tasks, subjectsById, filter, onClearFilter, o
         Sortert etter dato. Frister innen {SOON_THRESHOLD_DAYS} dager er uthevet.
       </p>
 
-      {upcoming.length === 0 ? (
+      {onLoadSample ? (
+        <div className="empty">
+          <p>Ingen fag eller oppgaver ennå.</p>
+          <p className="muted small">
+            Legg til ditt første fag, eller last inn eksempeldata for å se hvordan appen fungerer.
+          </p>
+          <button type="button" className="btn btn-primary empty-action" onClick={onLoadSample}>
+            Last inn eksempeldata
+          </button>
+        </div>
+      ) : upcoming.length === 0 ? (
         <div className="empty">
           <p>Ingen kommende frister 🎉</p>
           <p className="muted small">Nye oppgaver dukker opp her.</p>

@@ -16,6 +16,7 @@ En enkel og ren studieplanlegger for studenter, laget med **React** og **Vite**.
 - **Filtrering** – klikk på et fag i fagslisten for å bare se oppgavene i det faget. Klikk igjen (eller på merkelappen i oversikten) for å vise alle.
 - **Sammendrag** – øverst ser du antall åpne oppgaver, hvor mange som har frist innen 3 dager, og hvor mange som har forfalt.
 - **Lagring i nettleseren** – alt lagres i `localStorage`. Det finnes ingen backend og ingen innlogging; dataene ligger bare i nettleseren du bruker.
+- **Eksempeldata** – knappen «Last inn eksempeldata» fyller appen med tre eksempelfag (DAVE3625 i rødt, ITPE3200 i blått og ITPE3100 i grønt) og åtte oppgaver. Datoene regnes ut fra dagens dato når du trykker, så du alltid får minst én forfalt frist, flere frister innen 3 dager (noen med klokkeslett), noen lenger frem i tid og én ferdig oppgave. Når appen er tom, vises knappen tydelig midt i oversikten. Ellers ligger den diskret nederst på siden. Har du allerede data, blir du bedt om å bekrefte før alt erstattes.
 - **Mørkt og lyst tema** – appen starter i mørkt tema. Med knappen øverst kan du raskt veksle til lyst tema og tilbake; valget huskes til neste gang.
 - **Mobilvennlig** – layouten går fra to kolonner på store skjermer til én kolonne på mobil, med store trykkflater.
 
@@ -49,7 +50,8 @@ src/
 │   └── useLocalStorage.js   # useState som lagres i localStorage
 ├── utils/
 │   ├── dates.js             # Datohjelpere (dager igjen, «innen 3 dager», formatering)
-│   └── id.js                # Generering av unike ID-er
+│   ├── id.js                # Generering av unike ID-er
+│   └── sampleData.js        # Eksempelfag og -oppgaver med datoer relativt til i dag
 └── components/
     ├── SubjectForm.jsx      # Skjema for nytt fag
     ├── SubjectList.jsx      # Liste over fag, med filter og sletting
@@ -94,10 +96,11 @@ Jeg bygde appen med **Claude Code**, Anthropics AI-assistent for programmering, 
 
 Alt skulle lagres i `localStorage`, uten backend. Appen skulle ikke godta tomme navn eller frister uten dato. Designet skulle være rent og moderne og fungere på mobil. I tillegg ba jeg om en README, om å opprette et git-repo koblet til GitHub og pushe, og om automatisk deploy til GitHub Pages.
 
-**Senere endringer.** Da den første versjonen var ferdig, ba jeg om to nye funksjoner:
+**Senere endringer.** Da den første versjonen var ferdig, ba jeg om flere nye funksjoner:
 
 - **Lyst tema:** en knapp for å bytte raskt mellom mørkt og lyst tema. Mørkt tema er fortsatt standard.
 - **Valgfritt klokkeslett:** mulighet til å legge til klokkeslett på frister. Da kan to oppgaver med frist samme dag skilles fra hverandre (for eksempel 15:00 og 23:59) uten at klokkeslett blir påkrevd.
+- **Eksempeldata:** en knapp som fyller appen med eksempelfag og -oppgaver, med datoer regnet ut fra dagens dato. Da er det raskt å vise frem og teste alle tilstandene: forfalt, innen 3 dager, lenger frem og ferdig.
 
 ### Testing og forbedringer
 
