@@ -80,3 +80,34 @@ Appen deployes automatisk til GitHub Pages med GitHub Actions ([.github/workflow
 Engangsoppsett i repoet: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 `base` i [vite.config.js](vite.config.js) er satt til `/Mandatory-Assignment-3/` slik at stiene stemmer med adressen på GitHub Pages.
+
+## Hvordan appen ble laget med AI
+
+Jeg bygde appen med **Claude Code**, Anthropics AI-assistent for programmering, som en utvidelse i **VS Code**. Jeg beskrev hva jeg ville ha med vanlig tekst. Claude Code skrev koden, bygde prosjektet og tok seg av git og deploy.
+
+**Første prompt.** Jeg ba om en React-app laget med Vite: en studieplanlegger for studenter med disse funksjonene:
+
+1. legge til fag med navn og farge
+2. legge til oppgaver og frister knyttet til et fag, med dato, og kunne markere dem som ferdige
+3. en oversikt som viser kommende frister sortert etter dato, og fremhever de som er innen 3 dager
+
+Alt skulle lagres i `localStorage`, uten backend. Appen skulle ikke godta tomme navn eller frister uten dato. Designet skulle være rent og moderne og fungere på mobil. I tillegg ba jeg om en README, om å opprette et git-repo koblet til GitHub og pushe, og om automatisk deploy til GitHub Pages.
+
+**Senere endringer.** Da den første versjonen var ferdig, ba jeg om to nye funksjoner:
+
+- **Lyst tema:** en knapp for å bytte raskt mellom mørkt og lyst tema. Mørkt tema er fortsatt standard.
+- **Valgfritt klokkeslett:** mulighet til å legge til klokkeslett på frister. Da kan to oppgaver med frist samme dag skilles fra hverandre (for eksempel 15:00 og 23:59) uten at klokkeslett blir påkrevd.
+
+### Testing og forbedringer
+
+Etter hver endring testet jeg appen manuelt i nettleseren:
+
+- **Fag med tomt navn:** Jeg prøvde å legge til et fag uten navn, og et fag med bare mellomrom som navn. Begge ble avvist med feilmeldingen «Fagnavn kan ikke være tomt.».
+- **Påkrevde felter i oppgaver:** Jeg prøvde å lagre en oppgave uten navn og uten dato. Oppgaven ble ikke lagret, og det kom en feilmelding ved hvert felt som manglet. Uten noen fag vises ikke oppgaveskjemaet. Da står det en beskjed om at man må legge til et fag først.
+- **Lagring etter refresh:** Jeg la til fag og oppgaver, krysset av noen som ferdige, byttet tema og lastet siden på nytt. Alt var der fortsatt, også valgt tema.
+- **Klokkeslett er valgfritt:** Jeg la til oppgaver både med og uten klokkeslett. Begge deler fungerte, og oppgaver samme dag ble sortert etter klokkeslett, med de uten klokkeslett sist.
+- **Forfalt klokkeslett i dag:** Jeg la til en oppgave med frist i dag og et klokkeslett som allerede var passert. Den ble markert som forfalt (rød). En oppgave i dag med et senere klokkeslett ble markert som «I dag» og uthevet.
+- **Frister innen 3 dager:** Oppgaver med frist i dag og de tre neste dagene ble uthevet. Oppgaver lenger fram ble ikke det.
+- **Mobil og tema:** Jeg sjekket at layouten fungerer på mobilskjerm, og at temaknappen bytter mellom mørkt og lyst med en gang.
+
+Alt fungerte som det skulle.
