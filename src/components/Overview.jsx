@@ -2,8 +2,13 @@ import { useState } from 'react'
 import TaskItem from './TaskItem'
 import { SOON_THRESHOLD_DAYS } from '../utils/dates'
 
+// Oppgaver uten klokkeslett gjelder ut dagen, så de sorteres sist den dagen
+const timeKey = (t) => t.dueTime || '24:00'
+
 const byDueDate = (a, b) =>
-  a.dueDate.localeCompare(b.dueDate) || (a.createdAt ?? 0) - (b.createdAt ?? 0)
+  a.dueDate.localeCompare(b.dueDate) ||
+  timeKey(a).localeCompare(timeKey(b)) ||
+  (a.createdAt ?? 0) - (b.createdAt ?? 0)
 
 export default function Overview({ tasks, subjectsById, filter, onClearFilter, onToggle, onDelete }) {
   const [showDone, setShowDone] = useState(false)

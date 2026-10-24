@@ -1,9 +1,9 @@
-import { daysUntil, formatDate, isSoon, relativeLabel } from '../utils/dates'
+import { formatDate, isOverdue, isSoon, relativeLabel } from '../utils/dates'
 import { TrashIcon } from './icons'
 
 export default function TaskItem({ task, subject, onToggle, onDelete }) {
-  const overdue = !task.done && daysUntil(task.dueDate) < 0
-  const soon = !task.done && isSoon(task.dueDate)
+  const overdue = !task.done && isOverdue(task.dueDate, task.dueTime)
+  const soon = !task.done && !overdue && isSoon(task.dueDate)
 
   const classes = ['task']
   if (task.done) classes.push('is-done')
@@ -36,7 +36,10 @@ export default function TaskItem({ task, subject, onToggle, onDelete }) {
 
       <div className="task-date">
         <span className="task-relative">{status}</span>
-        <span className="task-absolute">{formatDate(task.dueDate)}</span>
+        <span className="task-absolute">
+          {formatDate(task.dueDate)}
+          {task.dueTime && <> · kl. {task.dueTime}</>}
+        </span>
       </div>
 
       <button

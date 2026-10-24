@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { createId } from './utils/id'
-import { isSoon, daysUntil } from './utils/dates'
+import { isSoon, isOverdue } from './utils/dates'
 import SubjectForm from './components/SubjectForm'
 import SubjectList from './components/SubjectList'
 import TaskForm from './components/TaskForm'
@@ -25,10 +25,11 @@ export default function App() {
 
   const stats = useMemo(() => {
     const open = tasks.filter((t) => !t.done)
+    const overdue = open.filter((t) => isOverdue(t.dueDate, t.dueTime))
     return {
       open: open.length,
-      soon: open.filter((t) => isSoon(t.dueDate)).length,
-      overdue: open.filter((t) => daysUntil(t.dueDate) < 0).length,
+      soon: open.filter((t) => !overdue.includes(t) && isSoon(t.dueDate)).length,
+      overdue: overdue.length,
     }
   }, [tasks])
 
@@ -48,10 +49,10 @@ export default function App() {
     if (filter === id) setFilter('all')
   }
 
-  function addTask({ title, subjectId, dueDate }) {
+  function addTask({ title, subjectId, dueDate, dueTime }) {
     setTasks((prev) => [
       ...prev,
-      { id: createId(), title, subjectId, dueDate, done: false, createdAt: Date.now() },
+      { id: createId(), title, subjectId, dueDate, dueTime, done: false, createdAt: Date.now() },
     ])
   }
 

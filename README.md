@@ -7,7 +7,8 @@ En enkel og ren studieplanlegger for studenter, laget med **React** og **Vite**.
 ## Funksjoner
 
 - **Fag med farge** – legg til fag med navn og en farge (åtte ferdige farger eller en egendefinert). Fargen brukes som markering på alle oppgaver i faget, så du kjenner dem igjen raskt.
-- **Oppgaver og frister** – registrer oppgaver knyttet til et fag, med frist (dato). Kryss av når oppgaven er ferdig; du kan også angre eller slette den.
+- **Oppgaver og frister** – registrer oppgaver knyttet til et fag, med frist (dato) og eventuelt et klokkeslett. Kryss av når oppgaven er ferdig; du kan også angre eller slette den.
+- **Valgfritt klokkeslett** – har du flere frister samme dag, kan du legge til klokkeslett (f.eks. 15:00 og 23:59). Oppgaver samme dag sorteres da etter klokkeslett, og de uten klokkeslett havner sist, siden fristen gjelder ut dagen. En frist i dag der klokkeslettet har passert, regnes som forfalt.
 - **Oversikt over kommende frister** – alle uferdige oppgaver vises sortert etter dato, nærmeste først.
   - Frister **innen 3 dager** (i dag til og med om tre dager) er uthevet i gult.
   - **Forfalte** frister er markert i rødt.
@@ -21,7 +22,7 @@ En enkel og ren studieplanlegger for studenter, laget med **React** og **Vite**.
 ## Validering
 
 - Et fag kan ikke ha tomt navn (bare mellomrom regnes som tomt), og du kan ikke lage to fag med samme navn.
-- En oppgave må ha et navn og en frist. Prøver du å lagre uten, vises en feilmelding ved feltet.
+- En oppgave må ha et navn og en frist (dato). Prøver du å lagre uten, vises en feilmelding ved feltet. Klokkeslett er valgfritt.
 - Du må ha minst ett fag før du kan legge til oppgaver.
 - Sletter du et fag, blir du bedt om å bekrefte, og oppgavene i faget slettes også.
 
@@ -67,10 +68,10 @@ Data lagres under to nøkler i `localStorage` (i tillegg lagres valgt tema under
 [{ id: "…", name: "Kunstig intelligens", color: "#4f46e5" }]
 
 // studieplanlegger.tasks
-[{ id: "…", title: "Innlevering 3", subjectId: "…", dueDate: "2026-10-27", done: false, createdAt: 1761330000000 }]
+[{ id: "…", title: "Innlevering 3", subjectId: "…", dueDate: "2026-10-27", dueTime: "15:00", done: false, createdAt: 1761330000000 }]
 ```
 
-Datoer lagres som `YYYY-MM-DD` og tolkes alltid som lokal tid, slik at «i dag» og «i morgen» blir riktig uansett tidssone.
+`dueTime` er `null` når oppgaven ikke har klokkeslett. Datoer lagres som `YYYY-MM-DD` og klokkeslett som `HH:MM`, og begge tolkes alltid som lokal tid, slik at «i dag» og «i morgen» blir riktig uansett tidssone.
 
 ## Deploy
 

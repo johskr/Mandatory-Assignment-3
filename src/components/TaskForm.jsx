@@ -5,6 +5,7 @@ export default function TaskForm({ subjects, onAdd }) {
   const [title, setTitle] = useState('')
   const [subjectId, setSubjectId] = useState('')
   const [dueDate, setDueDate] = useState('')
+  const [dueTime, setDueTime] = useState('')
   const [errors, setErrors] = useState({})
 
   if (subjects.length === 0) {
@@ -22,9 +23,10 @@ export default function TaskForm({ subjects, onAdd }) {
     setErrors(next)
     if (Object.keys(next).length > 0) return
 
-    onAdd({ title: title.trim(), subjectId: selectedSubject, dueDate })
+    onAdd({ title: title.trim(), subjectId: selectedSubject, dueDate, dueTime: dueTime || null })
     setTitle('')
     setDueDate('')
+    setDueTime('')
   }
 
   function clearError(field) {
@@ -49,18 +51,18 @@ export default function TaskForm({ subjects, onAdd }) {
         {errors.title && <span className="error" role="alert">{errors.title}</span>}
       </label>
 
+      <label className="field">
+        <span className="field-label">Fag</span>
+        <select value={selectedSubject} onChange={(e) => setSubjectId(e.target.value)}>
+          {subjects.map((s) => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
+        </select>
+      </label>
+
       <div className="field-row">
         <label className="field">
-          <span className="field-label">Fag</span>
-          <select value={selectedSubject} onChange={(e) => setSubjectId(e.target.value)}>
-            {subjects.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </select>
-        </label>
-
-        <label className="field">
-          <span className="field-label">Frist</span>
+          <span className="field-label">Frist (dato)</span>
           <input
             type="date"
             value={dueDate}
@@ -72,6 +74,13 @@ export default function TaskForm({ subjects, onAdd }) {
             aria-invalid={Boolean(errors.dueDate)}
           />
           {errors.dueDate && <span className="error" role="alert">{errors.dueDate}</span>}
+        </label>
+
+        <label className="field">
+          <span className="field-label">
+            Klokkeslett <span className="optional">(valgfritt)</span>
+          </span>
+          <input type="time" value={dueTime} onChange={(e) => setDueTime(e.target.value)} />
         </label>
       </div>
 

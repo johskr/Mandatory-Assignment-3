@@ -23,6 +23,19 @@ export function isSoon(isoDate) {
   return days >= 0 && days <= SOON_THRESHOLD_DAYS
 }
 
+function currentTime() {
+  const now = new Date()
+  const pad = (n) => String(n).padStart(2, '0')
+  return `${pad(now.getHours())}:${pad(now.getMinutes())}`
+}
+
+// Klokkeslett er valgfritt: uten klokkeslett gjelder fristen ut dagen
+export function isOverdue(isoDate, time) {
+  const days = daysUntil(isoDate)
+  if (days < 0) return true
+  return days === 0 && Boolean(time) && time < currentTime()
+}
+
 export function relativeLabel(isoDate) {
   const days = daysUntil(isoDate)
   if (days < -1) return `${-days} dager siden`
