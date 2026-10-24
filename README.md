@@ -15,7 +15,8 @@ En enkel og ren studieplanlegger for studenter, laget med **React** og **Vite**.
 - **Filtrering** – klikk på et fag i fagslisten for å bare se oppgavene i det faget. Klikk igjen (eller på merkelappen i oversikten) for å vise alle.
 - **Sammendrag** – øverst ser du antall åpne oppgaver, hvor mange som har frist innen 3 dager, og hvor mange som har forfalt.
 - **Lagring i nettleseren** – alt lagres i `localStorage`. Det finnes ingen backend og ingen innlogging; dataene ligger bare i nettleseren du bruker.
-- **Mobilvennlig** – layouten går fra to kolonner på store skjermer til én kolonne på mobil, med store trykkflater. Støtter også mørk modus automatisk.
+- **Mørkt og lyst tema** – appen starter i mørkt tema. Med knappen øverst kan du raskt veksle til lyst tema og tilbake; valget huskes til neste gang.
+- **Mobilvennlig** – layouten går fra to kolonner på store skjermer til én kolonne på mobil, med store trykkflater.
 
 ## Validering
 
@@ -41,7 +42,7 @@ npm run preview  # forhåndsvis produksjonsbygget lokalt
 src/
 ├── App.jsx                  # Tilstand (fag, oppgaver, filter) og layout
 ├── main.jsx                 # Inngangspunkt
-├── index.css                # All styling (lys/mørk modus, responsiv)
+├── index.css                # All styling (mørkt/lyst tema, responsiv)
 ├── hooks/
 │   └── useLocalStorage.js   # useState som lagres i localStorage
 ├── utils/
@@ -53,12 +54,13 @@ src/
     ├── TaskForm.jsx         # Skjema for ny oppgave
     ├── Overview.jsx         # Kommende og ferdige frister
     ├── TaskItem.jsx         # Én oppgave i listen
+    ├── ThemeToggle.jsx      # Knapp for å veksle mellom mørkt og lyst tema
     └── icons.jsx            # SVG-ikoner
 ```
 
 ### Datamodell
 
-Data lagres under to nøkler i `localStorage`:
+Data lagres under to nøkler i `localStorage` (i tillegg lagres valgt tema under `studieplanlegger.theme`):
 
 ```js
 // studieplanlegger.subjects

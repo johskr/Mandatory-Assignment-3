@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { createId } from './utils/id'
 import { isSoon, daysUntil } from './utils/dates'
@@ -6,11 +6,17 @@ import SubjectForm from './components/SubjectForm'
 import SubjectList from './components/SubjectList'
 import TaskForm from './components/TaskForm'
 import Overview from './components/Overview'
+import ThemeToggle from './components/ThemeToggle'
 
 export default function App() {
   const [subjects, setSubjects] = useLocalStorage('studieplanlegger.subjects', [])
   const [tasks, setTasks] = useLocalStorage('studieplanlegger.tasks', [])
   const [filter, setFilter] = useState('all')
+  const [theme, setTheme] = useLocalStorage('studieplanlegger.theme', 'dark')
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+  }, [theme])
 
   const subjectsById = useMemo(
     () => Object.fromEntries(subjects.map((s) => [s.id, s])),
@@ -60,9 +66,15 @@ export default function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <div>
-          <h1>Studieplanlegger</h1>
-          <p className="subtitle">Hold oversikt over fag og frister</p>
+        <div className="header-top">
+          <div>
+            <h1>Studieplanlegger</h1>
+            <p className="subtitle">Hold oversikt over fag og frister</p>
+          </div>
+          <ThemeToggle
+            theme={theme}
+            onToggle={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+          />
         </div>
         <div className="stats" aria-label="Sammendrag">
           <Stat value={stats.open} label="Åpne" />

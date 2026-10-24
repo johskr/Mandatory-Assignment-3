@@ -17,7 +17,7 @@
   --radius-sm: 10px;
   --shadow: 0 1px 2px rgb(16 24 40 / 0.04), 0 4px 16px rgb(16 24 40 / 0.06);
 
-  color-scheme: light dark;
+  color-scheme: light;
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.5;
   color: var(--text);
@@ -25,24 +25,24 @@
   -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1117;
-    --surface: #171a23;
-    --surface-2: #1f232f;
-    --border: #2a2f3d;
-    --text: #e8eaf2;
-    --text-muted: #9097ab;
-    --primary: #818cf8;
-    --primary-hover: #a5b4fc;
-    --primary-soft: #23264a;
-    --warn: #fbbf24;
-    --warn-soft: #2b2310;
-    --warn-border: #6b5212;
-    --danger: #f87171;
-    --danger-soft: #2e1717;
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
-  }
+:root[data-theme='dark'] {
+  --bg: #0f1117;
+  --surface: #171a23;
+  --surface-2: #1f232f;
+  --border: #2a2f3d;
+  --text: #e8eaf2;
+  --text-muted: #9097ab;
+  --primary: #818cf8;
+  --primary-hover: #a5b4fc;
+  --primary-soft: #23264a;
+  --warn: #fbbf24;
+  --warn-soft: #2b2310;
+  --warn-border: #6b5212;
+  --danger: #f87171;
+  --danger-soft: #2e1717;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 16px rgb(0 0 0 / 0.25);
+
+  color-scheme: dark;
 }
 
 *,
@@ -102,6 +102,38 @@ select {
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 24px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--primary);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 h1 {
@@ -606,6 +638,11 @@ input[aria-invalid='true'] {
 
   h1 {
     font-size: 1.5rem;
+  }
+
+  .header-top {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .stats {
