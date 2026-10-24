@@ -1,0 +1,79 @@
+# Studieplanlegger
+
+En enkel og ren studieplanlegger for studenter, laget med **React** og **Vite**. Appen hjelper deg å holde oversikt over fagene dine og fristene i dem, og gjør det tydelig hva som haster.
+
+**Live-versjon:** https://johskr.github.io/Mandatory-Assignment-3/
+
+## Funksjoner
+
+- **Fag med farge** – legg til fag med navn og en farge (åtte ferdige farger eller en egendefinert). Fargen brukes som markering på alle oppgaver i faget, så du kjenner dem igjen raskt.
+- **Oppgaver og frister** – registrer oppgaver knyttet til et fag, med frist (dato). Kryss av når oppgaven er ferdig; du kan også angre eller slette den.
+- **Oversikt over kommende frister** – alle uferdige oppgaver vises sortert etter dato, nærmeste først.
+  - Frister **innen 3 dager** (i dag til og med om tre dager) er uthevet i gult.
+  - **Forfalte** frister er markert i rødt.
+  - Ferdige oppgaver ligger i en egen liste som kan vises eller skjules.
+- **Filtrering** – klikk på et fag i fagslisten for å bare se oppgavene i det faget. Klikk igjen (eller på merkelappen i oversikten) for å vise alle.
+- **Sammendrag** – øverst ser du antall åpne oppgaver, hvor mange som har frist innen 3 dager, og hvor mange som har forfalt.
+- **Lagring i nettleseren** – alt lagres i `localStorage`. Det finnes ingen backend og ingen innlogging; dataene ligger bare i nettleseren du bruker.
+- **Mobilvennlig** – layouten går fra to kolonner på store skjermer til én kolonne på mobil, med store trykkflater. Støtter også mørk modus automatisk.
+
+## Validering
+
+- Et fag kan ikke ha tomt navn (bare mellomrom regnes som tomt), og du kan ikke lage to fag med samme navn.
+- En oppgave må ha et navn og en frist. Prøver du å lagre uten, vises en feilmelding ved feltet.
+- Du må ha minst ett fag før du kan legge til oppgaver.
+- Sletter du et fag, blir du bedt om å bekrefte, og oppgavene i faget slettes også.
+
+## Kom i gang lokalt
+
+Krever [Node.js](https://nodejs.org/) 20 eller nyere.
+
+```bash
+npm install      # installer avhengigheter
+npm run dev      # start utviklingsserver på http://localhost:5173/Mandatory-Assignment-3/
+npm run build    # bygg produksjonsversjon til dist/
+npm run preview  # forhåndsvis produksjonsbygget lokalt
+```
+
+## Prosjektstruktur
+
+```
+src/
+├── App.jsx                  # Tilstand (fag, oppgaver, filter) og layout
+├── main.jsx                 # Inngangspunkt
+├── index.css                # All styling (lys/mørk modus, responsiv)
+├── hooks/
+│   └── useLocalStorage.js   # useState som lagres i localStorage
+├── utils/
+│   ├── dates.js             # Datohjelpere (dager igjen, «innen 3 dager», formatering)
+│   └── id.js                # Generering av unike ID-er
+└── components/
+    ├── SubjectForm.jsx      # Skjema for nytt fag
+    ├── SubjectList.jsx      # Liste over fag, med filter og sletting
+    ├── TaskForm.jsx         # Skjema for ny oppgave
+    ├── Overview.jsx         # Kommende og ferdige frister
+    ├── TaskItem.jsx         # Én oppgave i listen
+    └── icons.jsx            # SVG-ikoner
+```
+
+### Datamodell
+
+Data lagres under to nøkler i `localStorage`:
+
+```js
+// studieplanlegger.subjects
+[{ id: "…", name: "Kunstig intelligens", color: "#4f46e5" }]
+
+// studieplanlegger.tasks
+[{ id: "…", title: "Innlevering 3", subjectId: "…", dueDate: "2026-10-27", done: false, createdAt: 1761330000000 }]
+```
+
+Datoer lagres som `YYYY-MM-DD` og tolkes alltid som lokal tid, slik at «i dag» og «i morgen» blir riktig uansett tidssone.
+
+## Deploy
+
+Appen deployes automatisk til GitHub Pages med GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)) hver gang det pushes til `main`. Workflowen bygger appen med `npm run build` og publiserer `dist/`-mappen.
+
+Engangsoppsett i repoet: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+`base` i [vite.config.js](vite.config.js) er satt til `/Mandatory-Assignment-3/` slik at stiene stemmer med adressen på GitHub Pages.
