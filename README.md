@@ -22,6 +22,7 @@ En enkel og ren studieplanlegger for studenter, laget med **React** og **Vite**.
 ## Validering
 
 - Et fag kan ikke ha tomt navn (bare mellomrom regnes som tomt), og du kan ikke lage to fag med samme navn.
+- Fagnavn kan være maks 40 tegn og oppgavenavn maks 80 tegn. En teller ved feltet viser hvor mange tegn du har brukt. Lang tekst brytes over flere linjer i stedet for å gjøre boksene bredere.
 - En oppgave må ha et navn og en frist (dato). Prøver du å lagre uten, vises en feilmelding ved feltet. Klokkeslett er valgfritt.
 - Du må ha minst ett fag før du kan legge til oppgaver.
 - Sletter du et fag, blir du bedt om å bekrefte, og oppgavene i faget slettes også.
@@ -110,4 +111,12 @@ Etter hver endring testet jeg appen manuelt i nettleseren:
 - **Frister innen 3 dager:** Oppgaver med frist i dag og de tre neste dagene ble uthevet. Oppgaver lenger fram ble ikke det.
 - **Mobil og tema:** Jeg sjekket at layouten fungerer på mobilskjerm, og at temaknappen bytter mellom mørkt og lyst med en gang.
 
-Alt fungerte som det skulle.
+Alt dette fungerte som det skulle.
+
+**Feil jeg fant under testing: lange fagnavn ødela layouten.** Da jeg la til et fag med et veldig langt navn, ble venstrekolonnen så bred at den la seg over «Kommende frister», og fristene ble umulige å se. Årsaken var nedtrekkslisten «Fag» i oppgaveskjemaet. Den blir like bred som det lengste fagnavnet, og kolonnen strakk seg etter den. Jeg ba Claude Code rette feilen, og løsningen ble:
+
+- Kolonnene og boksene har fått fast bredde og vokser ikke lenger med innholdet. Lange fagnavn kortes av med «…» i nedtrekkslisten.
+- Lange fag- og oppgavenavn brytes over flere linjer i fagslisten og i oversikten, i stedet for å presse boksen bredere.
+- Fagnavn er begrenset til 40 tegn og oppgavenavn til 80 tegn, med en teller som viser antall tegn brukt.
+
+Etter rettingen testet jeg på nytt med lange navn, både med og uten mellomrom. Layouten holdt seg som den skulle på både PC og mobil.
